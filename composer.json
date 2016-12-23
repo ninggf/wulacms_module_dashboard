@@ -1,0 +1,26 @@
+{
+  "name": "wulacms/dashboard",
+  "description": "后台界面",
+  "type": "wula-module",
+  "require": {
+	"wula/wula-installer": "^1.0",
+	"wula/ui": "*",
+	"wulacms/core": "*"
+  },
+  "license": "MIT",
+  "authors": [
+	{
+	  "name": "Leo Ning",
+	  "email": "windywany@gmail.com"
+	}
+  ],
+  "extra": {
+	"branch-alias": {
+	  "dev-master": "1.0-dev"
+	}
+  },
+  "support": {
+	"issues": "https://github.com/ninggf/wulacms_module_dashboard/issues"
+  },
+  "homepage": "https://www.wulacms.com/modules/dashboard"
+}
