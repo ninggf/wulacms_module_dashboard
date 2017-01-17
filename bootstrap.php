@@ -1,8 +1,8 @@
 <?php
 namespace dashboard;
 
+use wula\cms\CmfModule;
 use wulaphp\app\App;
-use wulaphp\app\Module;
 use wulaphp\io\Response;
 use wulaphp\router\URLGroupSupport;
 
@@ -16,7 +16,7 @@ trait DashBoardPrefix {
 	}
 }
 
-class DashboardModule extends Module {
+class DashboardModule extends CmfModule {
 	use DashBoardPrefix;
 
 	public function getName() {
@@ -24,26 +24,33 @@ class DashboardModule extends Module {
 	}
 
 	public function getDescription() {
-		return '基于jQuery; Vuejs; bootstrap(v3); element-ui等的控制台.';
+		return '基于jQuery; Vuejs; bootstrap(v3); element-ui等的现代化控制台.';
 	}
 
 	public function getHomePageURL() {
 		return 'https://www.wulacms.com/modules/dashboard';
 	}
 
+	public function getDependences() {
+		$d['core'] = '*';
+
+		return $d;
+	}
+
 	/**
-	 * @bind mvc\admin\needLogin
+	 * @filter mvc\admin\needLogin
 	 */
-	public static function onNeedLogin() {
+	public static function onNeedLogin($view) {
 		Response::redirect(App::url('~login'));
 	}
 
 	/**
+	 * @param mixed  $view
 	 * @param string $message
 	 *
-	 * @bind mvc\admin\onDenied $message
+	 * @filter mvc\admin\onDenied $message
 	 */
-	public static function onDenied($message) {
+	public static function onDenied($view, $message) {
 
 	}
 }
