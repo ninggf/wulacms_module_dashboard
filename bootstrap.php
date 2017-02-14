@@ -3,6 +3,7 @@ namespace dashboard;
 
 use wula\cms\CmfModule;
 use wulaphp\app\App;
+use wulaphp\db\View;
 use wulaphp\io\Response;
 use wulaphp\router\URLGroupSupport;
 
@@ -38,10 +39,14 @@ class DashboardModule extends CmfModule {
 	}
 
 	/**
+	 * @param $view
+	 *
 	 * @filter mvc\admin\needLogin
 	 */
 	public static function onNeedLogin($view) {
 		Response::redirect(App::url('~login'));
+
+		return $view;
 	}
 
 	/**
@@ -49,9 +54,10 @@ class DashboardModule extends CmfModule {
 	 * @param string $message
 	 *
 	 * @filter mvc\admin\onDenied $message
+	 * @return View
 	 */
 	public static function onDenied($view, $message) {
-
+		return $view;
 	}
 
 	public function getVersionList() {
