@@ -16,6 +16,11 @@ use dashboard\classes\BackendController;
 use wulaphp\app\App;
 use wulaphp\io\Response;
 
+/**
+ * 退出登录.
+ *
+ * @package dashboard\controllers
+ */
 class LogoutController extends BackendController {
 
 	public function index() {

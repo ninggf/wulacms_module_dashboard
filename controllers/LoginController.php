@@ -12,6 +12,7 @@ namespace dashboard\controllers;
 
 use dashboard\classes\BackendController;
 use wulaphp\app\App;
+use wulaphp\io\Ajax;
 use wulaphp\io\Response;
 
 class LoginController extends BackendController {
@@ -24,15 +25,22 @@ class LoginController extends BackendController {
 			Response::redirect(App::url('~'));
 		}
 
-		//TODO: 完成登录界面操作.
 		return view();
 	}
 
 	/**
+	 * @param string $username
+	 * @param string $password
+	 * @param string $captcha 验证码
+	 *
 	 * @nologin
+	 * @return \wulaphp\mvc\view\View
 	 */
-	public function indexPost() {
-		//TODO: 完成登录操作.
-		Response::redirect(App::url('~'));
+	public function indexPost($username, $password, $captcha = '') {
+		if ($this->passport->login([$username, $password, $captcha])) {
+			return Ajax::redirect(App::url('~'));
+		} else {
+			return Ajax::error($this->passport->error);
+		}
 	}
 }

@@ -14,7 +14,16 @@ namespace dashboard\classes;
 
 use dashboard\DashBoardPrefix;
 use wulaphp\mvc\controller\AdminController;
+use wulaphp\mvc\view\SmartyView;
 
 class BackendController extends AdminController {
 	use DashBoardPrefix;
+
+	public function afterRun($action, $view) {
+		if ($view instanceof SmartyView) {
+			$view->assign(['passport' => $this->passport]);
+		}
+
+		return $view;
+	}
 }
