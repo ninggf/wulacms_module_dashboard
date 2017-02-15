@@ -10,7 +10,6 @@ use wulaphp\mvc\view\JsonView;
 /**
  * 默认控制器.
  *
- * @login
  * @roles 管理员
  */
 class IndexController extends BackendController {
