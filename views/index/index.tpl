@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>wulacms dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="{'wula/ui/ui/app.css'|vendor}">
+    <link rel="stylesheet" href="{'wula/ui/app.css'|vendor}">
     <script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
-    <script src="{'wula/ui/ui/app.js'|vendor}"></script>
+    <script src="{'wula/ui/app.js'|vendor}"></script>
 </head>
 <body>
 
