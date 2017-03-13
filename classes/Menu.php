@@ -20,11 +20,13 @@ class Menu {
 	public $target    = '';
 	public $textCls   = '';
 	public $textStyle = '';
+	public $icon      = '';
 	public $iconStyle = '';
 	public $iconCls   = '';
 	public $level     = 1;
 	public $pos       = 9999;
 	public $badge     = '';
+	public $data      = [];
 	public $child     = [];
 
 	public function __construct($id, $name = '', $icon = '') {
@@ -61,10 +63,19 @@ class Menu {
 	}
 
 	public function data() {
-		$data = get_object_vars($this);
+		$data  = get_object_vars($this);
+		$datas = $data['data'];
+		unset($data['data']);
 		foreach (array_keys($data) as $key) {
 			if (empty($data[ $key ])) {
 				unset($data[ $key ]);
+			} else if (is_string($data[ $key ])) {
+				$data[ $key ] = trim($data[ $key ]);
+			}
+		}
+		if ($datas) {
+			foreach ($datas as $key => $v) {
+				$data['data'][ 'data-' . trim($key) ] = trim($v);
 			}
 		}
 		$data['child'] = [];
