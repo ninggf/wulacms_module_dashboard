@@ -24,6 +24,7 @@ class Menu {
 	public $iconCls   = '';
 	public $level     = 1;
 	public $pos       = 9999;
+	public $badge     = '';
 	public $child     = [];
 
 	public function __construct($id, $name = '', $icon = '') {

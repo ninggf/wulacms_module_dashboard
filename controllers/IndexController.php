@@ -32,6 +32,14 @@ class IndexController extends BackendController {
 		return ['items' => $data];
 	}
 
+	public function topbar($pos = 'right') {
+		$ui = new DashboardUI();
+		fire('dashboard\initTopbar\\' . $pos, $ui);
+		$menu = $ui->menuData();
+
+		return new JsonView($menu['menus']);
+	}
+
 	public function menu() {
 		$ui         = new DashboardUI();
 		$menu       = $ui->getMenu('home/ok/l', 1);
@@ -44,6 +52,18 @@ class IndexController extends BackendController {
 		$menu->name = '第一级';
 		fire('dashboard\initMenu', $ui);
 
-		return new JsonView($ui->menuData());
+		$data = $ui->menuData();
+
+		$uileft = new DashboardUI();
+		fire('dashboard\initLeftTopbar', $uileft);
+		$lf           = $uileft->menuData();
+		$data['left'] = $lf['menus'];
+
+		$uiright = new DashboardUI();
+		fire('dashboard\initRightTopbar', $uiright);
+		$rt            = $uileft->menuData();
+		$data['right'] = $rt['menus'];
+
+		return new JsonView($data);
 	}
 }
