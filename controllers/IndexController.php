@@ -15,15 +15,27 @@ use wulaphp\app\App;
 class IndexController extends BackendController {
 
 	public function index() {
-		$ui            = new DashboardUI();
-		$setting       = $ui->getMenu('setting');
-		$setting->name = '系统设置';
+		$ui     = new DashboardUI();
+		$system = $ui->getMenu('system');
+		// 系统
+		$system->name = '系统';
+		$system->icon = 'fa fa-cogs';
+		$system->pos  = 999999;
+		// 设置
+		$setting       = $system->getMenu('setting');
+		$setting->name = '设置';
 		$setting->icon = 'fa fa-cogs';
+		$setting->url  = App::url('~setting');
 		$setting->pos  = 999999;
+		// 通用设置
+		$base       = $setting->getMenu('base');
+		$base->name = '通用设置';
+		$base->url  = $setting->url;
+		$base->icon = 'fa fa-cogs';
 
 		fire('dashboard\initUI', $ui);
 		$data = $ui->menuData();
-
+		// 顶部左菜单
 		$uileft = new DashboardUI();
 		fire('dashboard\initLeftTopbar', $uileft);
 		$m            = $uileft->getMenu('home');
@@ -33,7 +45,7 @@ class IndexController extends BackendController {
 		$m->target    = '_self';
 		$lf           = $uileft->menuData();
 		$data['left'] = $lf['menus'];
-
+		// 顶部右菜单
 		$uiright = new DashboardUI();
 		fire('dashboard\initRightTopbar', $uiright);
 		$m       = $uiright->getMenu('user');
@@ -51,8 +63,9 @@ class IndexController extends BackendController {
 		$rt = $uiright->menuData();
 
 		$data['right'] = $rt['menus'];
+		$module        = App::getModule('dashboard');
 
-		return view(['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE]);
+		return view(['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE, 'version' => $module->getCurrentVersion()]);
 	}
 
 	public function home() {
