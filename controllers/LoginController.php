@@ -24,8 +24,9 @@ class LoginController extends BackendController {
 		if ($this->passport->isLogin) {
 			Response::redirect(App::url('~'));
 		}
+		$module        = App::getModule('dashboard');
 
-		return view();
+		return view(['appmode' => APP_MODE, 'version' => $module->getCurrentVersion()]);
 	}
 
 	/**

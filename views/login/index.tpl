@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>登录</title>
+    <title>登录 - 管理控制台V{$version}[{$appmode}]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="{'wula/ui/app.css'|vendor}">
-    <script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
-    <script src="{'wula/ui/app.js'|vendor}"></script>
 </head>
 <style>
     body {
@@ -37,20 +35,9 @@
 
 <div class="page-login" id="vue-login">
     <nav>
-        <div class="pull-left">
-            <a href="#" class="nav-link">首页</a>
-        </div>
         <div class="pull-right">
-            <a href="#" class="nav-link">加入我们</a>
-            <a href="#" class="nav-link">设置</a>
-            <div class="dropdown">
-                <a href="#" class="dropdown-toggle nav-link" id="dropdownMenu1" data-toggle="dropdown">设置 <span
-                            class="caret"></span> </a>
-                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                </ul>
-            </div>
+            <a href="{'siteurl'|cfg:'/'}" class="nav-link">首页</a>
+            <a href="http://www.wulacms.com/" target="_blank" class="nav-link">本站由<i class="text-danger">wulacms</i>驱动</a>
         </div>
     </nav>
     <div class="container">
@@ -79,21 +66,16 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Sign in <i
-                                class="icon-circle-right2 position-right"></i></button>
-                </div>
-
-                <div class="text-center">
-                    <a href="#">Forgot password?</a>
+                    <button type="submit" class="btn btn-primary btn-block">登录 <i class="icon-circle-right2 position-right"></i></button>
                 </div>
             </div>
         </form>
 
     </div>
 </div>
-
+<script src="{'wula/ui/vendor/jquery/jquery.min.js'|vendor}"></script>
+<script src="{'wula/ui/app.js'|vendor}"></script>
 <script>
-	//检验
 	$.wula.validate.init('login', {
 		rules   : {
 			username: {
