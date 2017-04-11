@@ -25,7 +25,7 @@ class IndexController extends BackendController {
 		$setting       = $system->getMenu('setting');
 		$setting->name = '设置';
 		$setting->icon = 'fa fa-cogs';
-		$setting->url  = App::url('~setting');
+		$setting->url  = App::hash('~setting');
 		$setting->pos  = 999999;
 		// 通用设置
 		$base       = $setting->getMenu('base');
@@ -48,17 +48,25 @@ class IndexController extends BackendController {
 		// 顶部右菜单
 		$uiright = new DashboardUI();
 		fire('dashboard\initRightTopbar', $uiright);
+		$m       = $uiright->getMenu('sys');
+		$m->icon = 'fa fa-cog';
+		$m->name = '系统';
+		$m->pos = 1;
+		$m->url             = App::hash('~users');
+
 		$m       = $uiright->getMenu('user');
 		$m->icon = 'fa fa-user-o';
 		$m->name = $this->passport->nickname;
-
+		$m->pos = 2;
+		
 		$m2                  = $m->getMenu('logout');
-		$m2->iconStyle       = 'color:red';
+		$m2->clsStyle       = 'color:red';
 		$m2->icon            = 'fa fa-power-off';
 		$m2->name            = '退出管理控制台';
-		$m2->url             = App::url('~logout?ajax');
+		$m2->url             = App::hash('~logout?ajax');
 		$m2->target          = 'ajax';
 		$m2->data['confirm'] = '你确定要退出吗?';
+		$m2->data['confirmTitle'] = '退出';
 
 		$rt = $uiright->menuData();
 
