@@ -75,7 +75,7 @@ class Menu {
 		}
 		if ($datas) {
 			foreach ($datas as $key => $v) {
-				$data['data'][ 'data-' . trim($key) ] = trim($v);
+				$data['data'][ trim($key) ] = trim($v);
 			}
 		}
 		$data['child'] = [];
