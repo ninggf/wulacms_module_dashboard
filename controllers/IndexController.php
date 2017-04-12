@@ -60,13 +60,23 @@ class IndexController extends BackendController {
 		$m->pos = 2;
 		
 		$m2                  = $m->getMenu('logout');
-		$m2->clsStyle       = 'color:red';
+		$m2->iconStyle       = 'color:red';
 		$m2->icon            = 'fa fa-power-off';
 		$m2->name            = '退出管理控制台';
 		$m2->url             = App::hash('~logout?ajax');
 		$m2->target          = 'ajax';
 		$m2->data['confirm'] = '你确定要退出吗?';
 		$m2->data['confirmTitle'] = '退出';
+
+		$m2                  = $m->getMenu('cp');
+		$m2->name='修改密码';
+		$m2->url=App::hash('~core/user/change-password');
+		$m2->data['dialog-data']=[
+			'title'=>'修改密码',
+		    'width'=>600
+		];
+
+
 
 		$rt = $uiright->menuData();
 
