@@ -15,7 +15,29 @@
 
 <body>
 <div id="login-page">
-	<wula-login-page url="{'~login'|app}" method="post"></wula-login-page>
+	<wula-login-page url="{'~login'|app}" method="post">
+		<a href="{'siteurl'|cfg:'/'}" slot="brand">{'sitename'|cfg:'乌拉小站'}</a>
+
+        <li class="main-nav__link" slot="menu"><a href="{'siteurl'|cfg:'/'}">首页</a></li>
+        <li class="main-nav__link" slot="menu"><a href="http://wulacms.com/" target="_blank">支持</a></li>
+
+        <p slot="welcome">立即管理您的网站</p>
+
+        <div slot="meesage">
+            <div class="waitlist__badge">
+                <span class="badge">New</span>
+            </div>
+            <div>
+                <h3 class="waitlist__title"><a href="">wulacms 1.0 已经发布</a></h3>
+            </div>
+        </div>
+
+        <li class="footer-nav__link" slot="footer">
+            <a href="http://wulacms.com/" target="_blank">
+                <i class="fa fa-gg"></i> 本网站由wulacms提供动力.
+            </a>
+        </li>
+	</wula-login-page>
 </div>
 
 <script>
