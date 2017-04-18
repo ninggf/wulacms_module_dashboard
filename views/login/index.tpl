@@ -25,16 +25,16 @@
 
         <div slot="meesage">
             <div class="waitlist__badge">
-                <span class="badge">New</span>
+                <span class="badge">赞</span>
             </div>
             <div>
-                <h3 class="waitlist__title"><a href="">wulacms 1.0 已经发布</a></h3>
+                <h3 class="waitlist__title"><a href="">wulacms 1.0 马上就要发布啦~</a></h3>
             </div>
         </div>
 
         <li class="footer-nav__link" slot="footer">
             <a href="http://wulacms.com/" target="_blank">
-                <i class="fa fa-gg"></i> 本网站由wulacms提供动力.
+                <i class="fa fa-gg"></i> 本网站由wulacms提供动力 <i class="fa fa-gg"></i>
             </a>
         </li>
 	</wula-login-page>
