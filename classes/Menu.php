@@ -28,6 +28,7 @@ class Menu {
 	public $badge     = '';
 	public $data      = [];
 	public $child     = [];
+	public $group     = 'ug';
 
 	public function __construct($id, $name = '', $icon = '') {
 		$this->id      = $id;
@@ -62,7 +63,12 @@ class Menu {
 		return $this->child[ $id ];
 	}
 
-	public function data() {
+	/**
+	 * @param bool $group 是否启用分组(在下拉菜单时有用)
+	 *
+	 * @return array
+	 */
+	public function data($group = false) {
 		$data  = get_object_vars($this);
 		$datas = $data['data'];
 		unset($data['data']);
@@ -75,16 +81,31 @@ class Menu {
 		}
 		if ($datas) {
 			foreach ($datas as $key => $v) {
-				$data['data'][ trim($key) ] = is_array($v)?$v:trim($v);
+				$data['data'][ trim($key) ] = is_array($v) ? $v : trim($v);
 			}
 		}
 		$data['child'] = [];
 		if ($this->child) {
 			foreach ($this->child as $item) {
-				$data['child'][] = $item->data();
+				$data['child'][] = $item->data($group);
 			}
 			usort($data['child'], ArrayCompare::compare('pos'));
+			if ($group) {
+				$gdata = [];
+				foreach ($data['child'] as $cd) {
+					$gp = $cd['group'];
+					unset($cd['group']);
+					$gdata[ $gp ][] = $cd;
+				}
+				$data['child'] = [];
+				foreach ($gdata as $gds) {
+					$data['child']   = array_merge($data['child'], $gds);
+					$data['child'][] = ['name' => 'divider'];
+				}
+				array_pop($data['child']);
+			}
 		}
+		unset($data['level']);
 
 		return $data;
 	}

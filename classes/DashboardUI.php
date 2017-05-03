@@ -43,10 +43,18 @@ class DashboardUI {
 		return $menu;
 	}
 
-	public function menuData() {
+	/**
+	 * 获取菜单数据.
+	 *
+	 * @param bool $group 是否启用分组(在下拉菜单时有用)
+	 *
+	 * @return array
+	 */
+	public function menuData($group = false) {
 		$menus = ['menus' => []];
+		/** @var \dashboard\classes\Menu $menu */
 		foreach ($this->menus as $menu) {
-			$menus['menus'][] = $menu->data();
+			$menus['menus'][] = $menu->data($group);
 		}
 		usort($menus['menus'], ArrayCompare::compare('pos'));
 

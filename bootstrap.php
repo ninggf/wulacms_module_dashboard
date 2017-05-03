@@ -1,4 +1,5 @@
 <?php
+
 namespace dashboard;
 
 use wula\cms\CmfModule;
@@ -17,6 +18,11 @@ trait DashBoardPrefix {
 	}
 }
 
+/**
+ * Class DashboardModule
+ * @package dashboard
+ * @group   core
+ */
 class DashboardModule extends CmfModule {
 	use DashBoardPrefix;
 
