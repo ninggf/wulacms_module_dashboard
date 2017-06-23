@@ -80,8 +80,17 @@ class Menu {
 			}
 		}
 		if ($datas) {
+			$h5data = [];
 			foreach ($datas as $key => $v) {
-				$data['data'][ trim($key) ] = is_array($v) ? $v : trim($v);
+				$tkey = trim($key);
+				if (is_array($v)) {
+					$data['data'][ $tkey ] = $v;
+				} else {
+					$data['data'][ $tkey ] = $h5data[ 'data-' . $tkey ] = trim($v);
+				}
+			}
+			if ($h5data) {
+				$data['h5datas'] = ary_kv_concat($h5data);
 			}
 		}
 		$data['child'] = [];

@@ -57,6 +57,22 @@ class DashboardUI {
 			$menus['menus'][] = $menu->data($group);
 		}
 		usort($menus['menus'], ArrayCompare::compare('pos'));
+		//处理分组
+		if ($group) {
+			$gdata = [];
+			foreach ($menus['menus'] as $cd) {
+				$gp = $cd['group'];
+				unset($cd['group']);
+				$gdata[ $gp ][] = $cd;
+			}
+			$_tpmenus = [];
+			foreach ($gdata as $gds) {
+				$_tpmenus   = array_merge($_tpmenus, $gds);
+				$_tpmenus[] = ['name' => 'divider'];
+			}
+			array_pop($_tpmenus);
+			$menus['menus'] = $_tpmenus;
+		}
 
 		return $menus;
 	}

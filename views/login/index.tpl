@@ -1,49 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{$website.language}">
 <head>
-	<meta charset="UTF-8">
-    <title>登录 - 管理控制台V{$version}[{$appmode}]</title>
+    <meta charset="UTF-8">
+    <title>{'Login'|t} - {$website.name} - {'wulacms'|t:$version}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="{'wula/ui/styles/ui.css'|vendor}">
-	<script src="{'wula/ui/ui.js'|vendor}"></script>
-	<style>
-		body{
-			background-color: #001a30;
-		}
-	</style>
+    <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor}">
+    {combinate type='js' ver='1.0'}
+        <script src="{'wula/ui/js/jquery.min.js'|vendor}"></script>
+        <script src="{'wula/ui/js/bootstrap.min.js'|vendor}"></script>
+        <script src="{'wula/ui/js/common.min.js'|vendor}"></script>
+        <script src="{'wula/ui/js/dialog/notify.min.js'|vendor}"></script>
+        <script src="{'wula/ui/js/dialog/dialog.min.js'|vendor}"></script>
+        <script src="{'wula/ui/js/app.js'|vendor:'min'}"></script>
+    {/combinate}
 </head>
-
-<body>
-<div id="login-page">
-	<wula-login-page url="{'~login'|app}" method="post">
-		<a href="{'siteurl'|cfg:'/'}" slot="brand">{'sitename'|cfg:'乌拉小站'}</a>
-
-        <li class="main-nav__link" slot="menu"><a href="{'siteurl'|cfg:'/'}">首页</a></li>
-        <li class="main-nav__link" slot="menu"><a href="http://wulacms.com/" target="_blank">支持</a></li>
-
-        <p slot="welcome">立即管理您的网站</p>
-
-        <div slot="meesage">
-            <div class="waitlist__badge">
-                <span class="badge">赞</span>
+<body class="modal-open">
+<div class="modal in wulaui" style="display: block;">
+    <div class="modal-over">
+        <div class="modal-center animated fadeInUp text-center" style="width:240px;margin:-80px 0 0 -120px;">
+            <div class="thumb-md">
+                <img src="{'logo2.svg'|assets}" class="img-circle b-a b-light b-3x" title="{'Be a happy wula!'|t}"/>
             </div>
-            <div>
-                <h3 class="waitlist__title"><a href="">wulacms 1.0 马上就要发布啦~</a></h3>
+            <div class="alert alert-danger m-t m-b text-left hidden" id="login-alert"></div>
+            <div class="input-group dropdown m-b m-t" data-widget="combox">
+                <input type="text" class="form-control text-sm" name="username" id="username"
+                       placeholder="{'Username'|t}"/>
+                <div class="input-group-btn">
+                    <a class="btn btn-success dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-o"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                        <li data-value="admin"><a>admin</a></li>
+                        <li data-value="leo"><a>leo</a></li>
+                    </ul>
+                </div>
             </div>
+            <div class="input-group">
+                <input type="password" class="form-control text-sm" name="password"
+                       placeholder="{'Enter password to continue'|t}" id="password"/>
+                <div class="input-group-btn">
+                    <a class="btn btn-success data-loading-text" data-ajax="post" id="login"
+                       href="{'~dashboard/login'|app}"><i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <p class="text-white h4 m-t m-b">
+                <small>{'wulacms'|t:$version}<br/>&copy; 2017</small>
+            </p>
         </div>
-
-        <li class="footer-nav__link" slot="footer">
-            <a href="http://wulacms.com/" target="_blank">
-                <i class="fa fa-gg"></i> 本网站由wulacms提供动力 <i class="fa fa-gg"></i>
-            </a>
-        </li>
-	</wula-login-page>
+    </div>
 </div>
-
-<script>
-	new Vue({
-		el:'#login-page'
-	})
+<div class="modal-backdrop in"></div>
+<script type="text/javascript">
+	$(function () {
+		var lang = {
+			password: '{"Please enter your password."|t}',
+			username: '{"Please enter your username."|t}'
+		};
+		$.wulaUI.init();
+		$('#login').on('ajax.success', function (e, data) {
+			if (data.code === 500) {
+				$('#login-alert').html('<i class="fa fa-warning"></i><strong>' + $.lang.core.error + '</strong>' + data.message).removeClass('hidden');
+			}
+		}).on('ajax.build', function (e) {
+			e.opts.data = {
+				username: $('#username').val().trim(),
+				password: $('#password').val()
+			};
+			if (!e.opts.data.username) {
+				$.dialog({
+					icon   : 'fa fa-warning',
+					title  : $.lang.core.warning,
+					type   : 'orange',
+					content: lang.username
+				});
+				return false;
+			}
+			if (!e.opts.data.password) {
+				$.dialog({
+					icon   : 'fa fa-warning',
+					title  : $.lang.core.warning,
+					type   : 'orange',
+					content: lang.password
+				});
+				return false;
+			}
+		});
+	});
 </script>
 </body>
 </html>

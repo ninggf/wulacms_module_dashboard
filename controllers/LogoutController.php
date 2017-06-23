@@ -15,6 +15,7 @@ namespace dashboard\controllers;
 use dashboard\classes\BackendController;
 use wulaphp\app\App;
 use wulaphp\io\Ajax;
+use wulaphp\io\Request;
 
 /**
  * 退出登录.
@@ -25,7 +26,7 @@ class LogoutController extends BackendController {
 
 	public function index() {
 		$this->passport->logout();
-		if (rqset('ajax')) {
+		if (Request::isAjaxRequest() || rqset('ajax')) {
 			return Ajax::redirect(App::url('~login'));
 		}
 		App::redirect('~login');

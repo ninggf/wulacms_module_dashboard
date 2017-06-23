@@ -24,9 +24,9 @@ class LoginController extends BackendController {
 		if ($this->passport->isLogin) {
 			Response::redirect(App::url('~'));
 		}
-		$module        = App::getModule('dashboard');
+		$module = App::getModule('dashboard');
 
-		return view(['appmode' => APP_MODE, 'version' => $module->getCurrentVersion()]);
+		return view(['version' => $module->getCurrentVersion(), 'website' => ['name' => App::cfg('sitename', 'Hello WulaCms')]]);
 	}
 
 	/**

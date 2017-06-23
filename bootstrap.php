@@ -31,7 +31,7 @@ class DashboardModule extends CmfModule {
 	}
 
 	public function getDescription() {
-		return '基于jQuery; Vuejs; bootstrap(v3); element-ui等的现代化控制台.';
+		return '基于Bootstrap、jQuery、H5等技术的现代化管理控制台.';
 	}
 
 	public function getHomePageURL() {

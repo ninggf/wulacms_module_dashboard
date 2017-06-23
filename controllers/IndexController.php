@@ -49,35 +49,43 @@ class IndexController extends BackendController {
 		$data['left'] = $lf['menus'];
 
 		// 顶部右菜单
-		$uiright = new DashboardUI();
-		fire('dashboard\initRightTopbar', $uiright);
-		$m       = $uiright->getMenu('user');
-		$m->icon = 'fa fa-user-o';
-		$m->name = $this->passport->nickname;
-		$m->pos  = 2;
+		$userMenu = new DashboardUI();
+		fire('dashboard\initUserTopbar', $userMenu);
 
-		$m2                       = $m->getMenu('logout');
-		$m2->iconStyle            = 'color:red';
-		$m2->icon                 = 'fa fa-sign-out';
-		$m2->name                 = '退出控制台';
-		$m2->url                  = App::hash('~logout?ajax');
-		$m2->target               = 'ajax';
-		$m2->data['confirm']      = '你确定要退出吗?';
-		$m2->data['confirmTitle'] = '退出';
-
-		$m2        = $m->getMenu('cp');
+		$m2        = $userMenu->getMenu('cp');
 		$m2->name  = '修改密码';
 		$m2->icon  = 'fa fa-lock';
 		$m2->pos   = 2;
 		$m2->group = 'user';
+		$m2->badge = 10;
 		$m2->url   = App::hash('~core/user/change-password');
 
-		$rt = $uiright->menuData(true);
+		$m2                        = $userMenu->getMenu('logout');
+		$m2->iconStyle             = 'color:red';
+		$m2->iconCls               = 'afdasdf';
+		$m2->icon                  = 'fa fa-sign-out';
+		$m2->name                  = __('Logout');
+		$m2->url                   = App::url('~logout?ajax');
+		$m2->data['confirm']       = __('Are your sure?');
+		$m2->data['confirm-title'] = $m2->name . __('Account');
+		$m2->data['confirm-theme'] = 'supervan';
+		$m2->data['loading']       = 1;
+		$m2->data['block']         = 1;
+		$m2->data['ajax']          = 'get';
 
-		$data['right'] = $rt['menus'];
-		$module        = App::getModule('dashboard');
+		$rt = $userMenu->menuData(true);
 
-		return view(['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE, 'version' => $module->getCurrentVersion()]);
+		$data['userMenu'] = $rt['menus'];
+
+		$module = App::getModule('dashboard');
+
+		$data = ['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE, 'version' => $module->getCurrentVersion()];
+
+		$data['appConfig'] = json_encode(['ids' => App::id2dir(null), 'groups' => App::$prefix, 'base' => WWWROOT_DIR]);
+
+		$data['website']['name'] = App::cfg('sitename', 'Hello WulaCms');
+
+		return view($data);
 	}
 
 	public function home() {
