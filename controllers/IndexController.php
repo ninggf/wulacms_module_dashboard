@@ -52,7 +52,7 @@ class IndexController extends BackendController {
 		$userMenu = new DashboardUI();
 		fire('dashboard\initUserTopbar', $userMenu);
 
-		$m2        = $userMenu->getMenu('cp');
+		$m2        = $userMenu->getMenu('system-account-cp');
 		$m2->name  = '修改密码';
 		$m2->icon  = 'fa fa-lock';
 		$m2->pos   = 2;

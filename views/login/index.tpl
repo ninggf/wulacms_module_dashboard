@@ -12,6 +12,7 @@
         <script src="{'wula/ui/js/dialog/notify.min.js'|vendor}"></script>
         <script src="{'wula/ui/js/dialog/dialog.min.js'|vendor}"></script>
         <script src="{'wula/ui/js/app.js'|vendor:'min'}"></script>
+    {'wula/ui/lang'|vendor|i18n}
     {/combinate}
 </head>
 <body class="modal-open">

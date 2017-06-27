@@ -39,7 +39,7 @@ class LoginController extends BackendController {
 	 */
 	public function indexPost($username, $password, $captcha = '') {
 		if ($this->passport->login([$username, $password, $captcha])) {
-			return Ajax::redirect(App::url('~'));
+			return Ajax::redirect(App::url('~'), '', null, true);
 		} else {
 			return Ajax::error($this->passport->error);
 		}

@@ -12,5 +12,6 @@ return [
 	'Please enter your password.'=>'请输入你的密码.',
 	'Please enter your username.'=>'请输入你的账户.',
     'Be a happy wula!'=>'做一只快乐的小乌拉！',
-    'Are your sure?'=>'你确定吗?'
+    'Are your sure?'=>'你确定吗?',
+    'Shortcuts'=>'快捷方式'
 ];

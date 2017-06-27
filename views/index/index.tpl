@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{'Dashboard'|t} - {$website.name} - {'wulacms'|t:$version}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor:'min'}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor:'min'}"/>
 </head>
 <body>
-<div class="vbox">
+<div class="vbox wulaui">
     <header class="bg-dark dk header navbar navbar-fixed-top-xs">
         <div class="navbar-header aside-md">
             <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
@@ -18,7 +18,6 @@
                 <i class="fa fa-cog"></i>
             </a>
         </div>
-
         <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle dker" data-toggle="dropdown"><i class="fa fa-fw fa-search"></i></a>
@@ -51,7 +50,7 @@
                             <li class="divider"></li>
                         {else}
                             <li id="umi-li-{$m.id}" class="{$m.textCls}" style="{$m.textStyle}">
-                                <a href="{$m.url|default:'#'}" id="umi-a-{$m.id}" {$m.h5datas}>
+                                <a href="{$m.url|default:'#'}" id="navi-{$m.id}" {$m.h5datas}>
                                     {if $m.icon}
                                         <i class="{$m.icon}" {if $m.iconStyle}style="{$m.iconStyle}"{/if}></i>
                                     {/if}
@@ -72,15 +71,30 @@
         <section class="hbox stretch">
             <aside class="bg-light lter b-r aside-md hidden-print hidden-xs" id="nav">
                 <section class="vbox">
+                    <header class="header bg-primary lter text-center clearfix">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-dark btn-icon"><i class="fa fa-plus"></i>
+                            </button>
+                            <div class="btn-group hidden-nav-xs">
+                                <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
+                                        data-toggle="dropdown" aria-expanded="false">
+                                    {'Shortcuts'|t}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu text-left">
+                                    <span class="arrow top"></span>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
                     <section class="w-f scrollable">
                         <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0"
                              data-size="5px" data-color="#333333">
-                            <!-- nav -->
                             <nav class="nav-primary hidden-xs">
                                 <ul class="nav">
                                     {foreach $menu.menus as $navi}
                                         <li>
-                                            <a id="navi-a-{$navi.id}" class="{$navi.textCls}"
+                                            <a id="navi-{$navi.id}" class="{$navi.textCls}"
                                                href="{$navi.url|default:'#'}" {$navi.h5datas} style="{$navi.textStyle}">
                                                 {if $navi.badge}
                                                     <b class="badge bg-danger pull-right">{$navi.badge}</b>
@@ -101,7 +115,7 @@
                                                 <ul class="nav lt">
                                                     {foreach $navi.child as $nna}
                                                         <li>
-                                                            <a id="navi-sa-{$nna.id}" class="{$nna.textCls}"
+                                                            <a id="navi-{$navi.id}-{$nna.id}" class="{$nna.textCls}"
                                                                href="{$nna.url|default:'#'}" {$nna.h5datas}
                                                                style="{$nna.textStyle}">
                                                                 {if $nna.badge}
@@ -111,6 +125,26 @@
                                                                    style="{$nna.iconStyle}"></i>
                                                                 <span>{$nna.name}</span>
                                                             </a>
+                                                            {if $nna.child}
+                                                                {capture append="_thirdNaviItems_"}
+                                                                    <ul class="nav hide"
+                                                                        id="navi-{$navi.id}-{$nna.id}-sub"
+                                                                        data-name="{$nna.name}">
+                                                                        {foreach $nna.child as $nta}
+                                                                            <li class="b-b b-light">
+                                                                                <a id="navi-{$navi.id}-{$nna.id}-{$nta.id}"
+                                                                                   href="{$nta.url|default:'#'}"
+                                                                                   class="{$nta.textCls}" {$nta.h5datas}
+                                                                                   style="{$nta.textStyle}">
+                                                                                    <i class="fa fa-chevron-right pull-right m-t-xs text-xs icon-muted"
+                                                                                       style="{$nta.iconStyle}"></i>
+                                                                                    {$nta.name}
+                                                                                </a>
+                                                                            </li>
+                                                                        {/foreach}
+                                                                    </ul>
+                                                                {/capture}
+                                                            {/if}
                                                         </li>
                                                     {/foreach}
                                                 </ul>
@@ -119,7 +153,6 @@
                                     {/foreach}
                                 </ul>
                             </nav>
-                            <!-- / nav -->
                         </div>
                     </section>
                     <footer class="footer lt hidden-xs b-t b-light">
@@ -134,9 +167,35 @@
                     </footer>
                 </section>
             </aside>
+            <section id="wulaui-workspace">
+                <section class="hbox stretch">
+                    <aside class="aside aside-md bg-white b-r hide" id="third-navi">
+                        <section class="vbox">
+                            <header class="header bg-light dk">
+                                <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs"
+                                        data-toggle="class:show" data-target="#third-navi-item"><i
+                                            class="fa fa-reorder"></i></button>
+                                <p class="h4" id="third-menu-name"></p>
+                            </header>
+                            <section id="third-navi-item" class="hidden-xs scrollable">
+                                <div class="slim-scroll" data-height="100%" data-disable-fade-out="true"
+                                     data-distance="0" data-size="5px" data-color="#333333">
+                                    <section class="nav-third">
+                                        {foreach $_thirdNaviItems_ as $_thridNaviItem_}
+                                            {$_thridNaviItem_}
+                                        {/foreach}
+                                    </section>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                    <!-- 工作区开始 -->
+                    <aside id="wulaui-workbench" class="wulaui">
 
-            <section id="content">
-
+                    </aside><!-- 工作区结束 -->
+                </section>
+                <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen, open"
+                   data-target="#nav,html"></a>
             </section>
         </section>
     </section>
@@ -152,7 +211,11 @@
 {'wula/ui/lang'|vendor|i18n}
 {/combinate}
 <script type="text/javascript">
-	$.wulaUI.init();
+	$(function () {
+		$.wulaUI.init({
+			hash: true
+		}, true);
+	});
 </script>
 </body>
 </html>
