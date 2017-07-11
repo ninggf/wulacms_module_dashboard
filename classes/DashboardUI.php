@@ -13,17 +13,19 @@ namespace dashboard\classes;
 use wulaphp\util\ArrayCompare;
 
 class DashboardUI {
+	private $cpos  = 500;
 	private $menus = [];
 
 	/**
 	 * 获取导航菜单.
 	 *
-	 * @param string $id
-	 * @param int    $pos
+	 * @param string   $id
+	 * @param string   $name 菜单名称
+	 * @param int|null $pos
 	 *
 	 * @return Menu
 	 */
-	public function &getMenu($id, $pos = 9999) {
+	public function &getMenu($id, $name = '', $pos = null) {
 		$ids = explode('/', trim($id, '/'));
 		$id  = array_shift($ids);
 
@@ -31,14 +33,21 @@ class DashboardUI {
 			$menu = $this->menus [ $id ];
 		} else {
 			$menu                = new Menu($id);
-			$this->menus [ $id ] = $menu;
+			$this->menus [ $id ] = &$menu;
 		}
 		if ($ids) {
 			foreach ($ids as $id) {
 				$menu = $menu->getMenu($id);
 			}
 		}
-		$menu->pos = $pos;
+		if ($name) {
+			$menu->name = $name;
+		}
+		if ($pos != null) {
+			$menu->pos = $pos;
+		} else if (!$menu->pos) {
+			$menu->pos = $this->cpos++;
+		}
 
 		return $menu;
 	}

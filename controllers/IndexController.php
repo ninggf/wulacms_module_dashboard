@@ -17,54 +17,45 @@ class IndexController extends BackendController {
 	public function index() {
 		$ui = new DashboardUI();
 		if ($this->passport->cando('m:system')) {
-			$system = $ui->getMenu('system');
-			// 系统
-			$system->name = '系统';
+			$system       = $ui->getMenu('system', '系统', 999999);
 			$system->icon = 'fa fa-cogs';
-			$system->pos  = 999999;
 			// 设置
-			$setting       = $system->getMenu('setting');
-			$setting->name = '设置';
+			$setting       = $system->getMenu('setting', '设置', 999999);
 			$setting->icon = 'fa fa-cogs';
 			$setting->url  = App::hash('~setting');
-			$setting->pos  = 999999;
 			// 通用设置
-			$base       = $setting->getMenu('base');
-			$base->name = '通用设置';
+			$base       = $setting->getMenu('base', '通用设置');
 			$base->url  = $setting->url;
 			$base->icon = 'fa fa-cogs';
 		}
 
 		fire('dashboard\initUI', $ui);
 		$data = $ui->menuData();
+
 		// 顶部左菜单
 		$uileft = new DashboardUI();
 		fire('dashboard\initLeftTopbar', $uileft);
-		$m            = $uileft->getMenu('home');
-		$m->name      = '管理控制台';
-		$m->pos       = 1;
+		$m            = $uileft->getMenu('home', '管理控制台', 1);
 		$m->url       = App::url('~');
-		$m->target    = '_self';
 		$lf           = $uileft->menuData();
 		$data['left'] = $lf['menus'];
 
-		// 顶部右菜单
+		$rightMenu = new DashboardUI();
+		fire('dashboard\initRightTopbar', $rightMenu);
+		$rf            = $rightMenu->menuData();
+		$data['right'] = $rf['menus'];
+		// 顶部用户菜单
 		$userMenu = new DashboardUI();
 		fire('dashboard\initUserTopbar', $userMenu);
 
-		$m2        = $userMenu->getMenu('system-account-cp');
-		$m2->name  = '修改密码';
+		$m2        = $userMenu->getMenu('system-account-cp', '修改密码', 2);
 		$m2->icon  = 'fa fa-lock';
-		$m2->pos   = 2;
 		$m2->group = 'user';
-		$m2->badge = 10;
 		$m2->url   = App::hash('~core/user/change-password');
 
-		$m2                        = $userMenu->getMenu('logout');
+		$m2                        = $userMenu->getMenu('logout', __('Logout'), 999999);
 		$m2->iconStyle             = 'color:red';
-		$m2->iconCls               = 'afdasdf';
 		$m2->icon                  = 'fa fa-sign-out';
-		$m2->name                  = __('Logout');
 		$m2->url                   = App::url('~logout?ajax');
 		$m2->data['confirm']       = __('Are your sure?');
 		$m2->data['confirm-title'] = $m2->name . __('Account');
@@ -75,13 +66,14 @@ class IndexController extends BackendController {
 
 		$rt = $userMenu->menuData(true);
 
-		$data['userMenu'] = $rt['menus'];
+		$data['user'] = $rt['menus'];
 
 		$module = App::getModule('dashboard');
 
-		$data = ['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE, 'version' => $module->getCurrentVersion()];
-
-		$data['appConfig'] = json_encode(['ids' => App::id2dir(null), 'groups' => App::$prefix, 'base' => WWWROOT_DIR]);
+		$data   = ['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE, 'version' => $module->getCurrentVersion()];
+		$groups = App::$prefix;
+		unset($groups['check']);
+		$data['appConfig'] = json_encode(['ids' => App::id2dir(null), 'groups' => $groups, 'base' => WWWROOT_DIR]);
 
 		$data['website']['name'] = App::cfg('sitename', 'Hello WulaCms');
 

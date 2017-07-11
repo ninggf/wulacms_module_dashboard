@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>{'Dashboard'|t} - {$website.name} - {'wulacms'|t:$version}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor:'min'}"/>
+    {combinate type='css' ver='1.0'}
+        <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor:'min'}"/>
+    {'dashboard\headercss'|fire}
+    {/combinate}
 </head>
 <body>
 <div class="vbox wulaui">
@@ -45,7 +48,7 @@
                 </a>
                 <ul class="dropdown-menu animated fadeInRight">
                     <span class="arrow top"></span>
-                    {foreach $menu.userMenu as $m}
+                    {foreach $menu.user as $m}
                         {if $m.name == 'divider'}
                             <li class="divider"></li>
                         {else}
@@ -55,10 +58,6 @@
                                         <i class="{$m.icon}" {if $m.iconStyle}style="{$m.iconStyle}"{/if}></i>
                                     {/if}
                                     {$m.name}
-                                    {if $m.badge}
-                                        <span id="umi-badge-{$m.id}"
-                                              class="badge bg-danger pull-right">{$m.badge}</span>
-                                    {/if}
                                 </a>
                             </li>
                         {/if}
@@ -156,7 +155,8 @@
                         </div>
                     </section>
                     <footer class="footer lt hidden-xs b-t b-light">
-                        <a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-default btn-icon">
+                        <a href="#nav" id="toggle-navi" data-toggle="class:nav-xs"
+                           class="pull-right btn btn-sm btn-default btn-icon">
                             <i class="fa fa-angle-left text"></i>
                             <i class="fa fa-angle-right text-active"></i>
                         </a>
@@ -189,10 +189,7 @@
                             </section>
                         </section>
                     </aside>
-                    <!-- 工作区开始 -->
-                    <aside id="wulaui-workbench" class="wulaui">
-
-                    </aside><!-- 工作区结束 -->
+                    <aside id="wulaui-workbench" class="wulaui"></aside>
                 </section>
                 <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen, open"
                    data-target="#nav,html"></a>
@@ -207,13 +204,31 @@
     <script src="{'wula/ui/js/slimscroll/slimscroll.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/dialog/notify.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/dialog/dialog.min.js'|vendor}"></script>
-    <script src="{'wula/ui/js/app.js'|vendor:'min'}"></script>
+    <script src="{'wula/ui/js/datepicker/datepicker.min.js'|vendor}"></script>
+    <script src="{'wula/ui/js/select2/select2.min.js'|vendor}"></script>
+    <script src="{'wula/ui/js/require.min.js'|vendor}"></script>
+    <script src="{'wula/ui/js/app.js'|vendor:'min'}" type="text/javascript"></script>
 {'wula/ui/lang'|vendor|i18n}
+{'dashboard\footerjs'|fire}
 {/combinate}
 <script type="text/javascript">
 	$(function () {
+		$(document).on('wula.need.login', function () {
+			location.href = "{'~login'|app}" + (location.hash ? location.hash : '');
+		});
 		$.wulaUI.init({
-			hash: true
+			appConfig: {$appConfig},
+			hash     : true,
+			requirejs: {
+				baseUrl: "{''|res}",
+				paths  : {
+					ztree    : '{"wula/ui/js/ztree/ztree.min"|vendor}',
+					validator: '{"wula/ui/js/validate/validate.min"|vendor}'
+				},
+				shim   : {
+					ztree: []
+				}
+			}
 		}, true);
 	});
 </script>

@@ -13,22 +13,23 @@ namespace dashboard\classes;
 use wulaphp\util\ArrayCompare;
 
 class Menu {
-	public $id;
-	public $name;
-	public $title     = '';
-	public $url       = '';
-	public $target    = '';
-	public $textCls   = '';
-	public $textStyle = '';
-	public $icon      = '';
-	public $iconStyle = '';
-	public $iconCls   = '';
-	public $level     = 1;
-	public $pos       = 9999;
-	public $badge     = '';
-	public $data      = [];
-	public $child     = [];
-	public $group     = 'ug';
+	public  $id;
+	public  $name;
+	public  $title     = '';
+	public  $url       = '';
+	public  $target    = '';
+	public  $textCls   = '';
+	public  $textStyle = '';
+	public  $icon      = '';
+	public  $iconStyle = '';
+	public  $iconCls   = '';
+	public  $level     = 1;
+	public  $pos       = 0;
+	public  $badge     = '';
+	public  $data      = [];
+	public  $child     = [];
+	public  $group     = 'ug';
+	private $cpos      = 500;
 
 	public function __construct($id, $name = '', $icon = '') {
 		$this->id      = $id;
@@ -48,16 +49,20 @@ class Menu {
 	/**
 	 * 获取菜单项。
 	 *
-	 * @param string $id
-	 * @param int    $pos
+	 * @param string   $id
+	 * @param string   $name
+	 * @param int|null $pos
 	 *
 	 * @return Menu 菜单实例
 	 */
-	public function &getMenu($id, $pos = 9999) {
+	public function &getMenu($id, $name = '', $pos = null) {
 		if (!isset ($this->child [ $id ])) {
 			$this->child[ $id ]        = new Menu($id);
 			$this->child[ $id ]->level = $this->level + 1;
-			$this->child[ $id ]->pos   = $pos;
+			if ($name) {
+				$this->child[ $id ]->name = $name;
+			}
+			$this->child[ $id ]->pos = $pos == null ? $this->cpos++ : $pos;
 		}
 
 		return $this->child[ $id ];
@@ -71,7 +76,7 @@ class Menu {
 	public function data($group = false) {
 		$data  = get_object_vars($this);
 		$datas = $data['data'];
-		unset($data['data']);
+		unset($data['data'], $data['cpos']);
 		foreach (array_keys($data) as $key) {
 			if (empty($data[ $key ])) {
 				unset($data[ $key ]);
