@@ -219,6 +219,7 @@
 		$.wulaUI.init({
 			appConfig: {$appConfig},
 			hash     : true,
+			mode     : '{$appmode}',
 			requirejs: {
 				baseUrl: "{''|res}",
 				paths  : {
