@@ -53,16 +53,17 @@ class IndexController extends BackendController {
 		$m2->group = 'user';
 		$m2->url   = App::hash('~core/user/change-password');
 
-		$m2                        = $userMenu->getMenu('logout', __('Logout'), 999999);
-		$m2->iconStyle             = 'color:red';
-		$m2->icon                  = 'fa fa-sign-out';
-		$m2->url                   = App::url('~logout?ajax');
-		$m2->data['confirm']       = __('Are your sure?');
-		$m2->data['confirm-title'] = $m2->name . __('Account');
-		$m2->data['confirm-theme'] = 'supervan';
-		$m2->data['loading']       = 1;
-		$m2->data['block']         = 1;
-		$m2->data['ajax']          = 'get';
+		$m2                            = $userMenu->getMenu('logout', __('Logout'), 999999);
+		$m2->iconStyle                 = 'color:red';
+		$m2->icon                      = 'fa fa-sign-out';
+		$m2->url                       = App::url('~logout?ajax');
+		$m2->data['confirm']           = __('Are your sure?');
+		$m2->data['confirm-title']     = $m2->name . __('Account');
+		$m2->data['confirm-theme']     = 'supervan';
+		$m2->data['confirm-autoclose'] = 'ok|10000';
+		$m2->data['loading']           = 1;
+		$m2->data['block']             = 1;
+		$m2->data['ajax']              = 'get';
 
 		$rt = $userMenu->menuData(true);
 

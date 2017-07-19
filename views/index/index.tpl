@@ -223,11 +223,13 @@
 			requirejs: {
 				baseUrl: "{''|res}",
 				paths  : {
-					ztree    : '{"wula/ui/js/ztree/ztree.min"|vendor}',
-					validator: '{"wula/ui/js/validate/validate.min"|vendor}'
+					ztree       : '{"wula/ui/js/ztree/ztree.min"|vendor}',
+					ztree_exhide: '{"wula/ui/js/ztree/exhide.min"|vendor}',
+					validator   : '{"wula/ui/js/validate/validate.min"|vendor}'
 				},
 				shim   : {
-					ztree: []
+					ztree       : [],
+					ztree_exhide: ['ztree']
 				}
 			}
 		}, true);
