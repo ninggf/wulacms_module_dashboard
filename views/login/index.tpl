@@ -23,15 +23,11 @@
                 <img src="{'logo2.svg'|assets}" class="img-circle b-a b-light b-3x" title="{'Be a happy wula!'|t}"/>
             </div>
             <div class="alert alert-danger m-t m-b text-left hidden" id="login-alert"></div>
-            <div class="input-group dropdown m-b m-t" data-widget="combox">
+            <div class="input-group dropdown m-b m-t">
                 <input type="text" class="form-control text-sm" name="username" id="username"
                        placeholder="{'Username'|t}"/>
                 <div class="input-group-btn">
-                    <a class="btn btn-success dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-o"></i></a>
-                    <ul class="dropdown-menu pull-right">
-                        <li data-value="admin"><a>admin</a></li>
-                        <li data-value="leo"><a>leo</a></li>
-                    </ul>
+                    <a class="btn btn-success"><i class="fa fa-user-o"></i></a>
                 </div>
             </div>
             <div class="input-group">
@@ -55,6 +51,7 @@
 			password: '{"Please enter your password."|t}',
 			username: '{"Please enter your username."|t}'
 		};
+
 		$.wulaUI.init();
 		$('#login').on('ajax.success', function (e, data) {
 			if (data.code === 500) {

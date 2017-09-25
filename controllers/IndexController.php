@@ -2,7 +2,6 @@
 
 namespace dashboard\controllers;
 
-use core\model\UserTable;
 use dashboard\classes\BackendController;
 use dashboard\classes\DashboardUI;
 use wulaphp\app\App;
@@ -20,13 +19,17 @@ class IndexController extends BackendController {
 			$system       = $ui->getMenu('system', '系统', 999999);
 			$system->icon = 'fa fa-cogs';
 			// 设置
-			$setting       = $system->getMenu('setting', '设置', 999999);
-			$setting->icon = 'fa fa-cogs';
-			$setting->url  = App::hash('~setting');
-			// 通用设置
-			$base       = $setting->getMenu('base', '通用设置');
-			$base->url  = $setting->url;
-			$base->icon = 'fa fa-cogs';
+			if ($this->passport->cando('m:system/setting')) {
+				$setting       = $system->getMenu('setting', '设置', 999999);
+				$setting->icon = 'fa fa-cogs';
+				$setting->url  = App::hash('~setting');
+				// 通用设置
+				if ($this->passport->cando('com:system/setting')) {
+					$base       = $setting->getMenu('base', '通用设置');
+					$base->url  = $setting->url;
+					$base->icon = 'fa fa-cogs';
+				}
+			}
 		}
 
 		fire('dashboard\initUI', $ui);
@@ -48,10 +51,10 @@ class IndexController extends BackendController {
 		$userMenu = new DashboardUI();
 		fire('dashboard\initUserTopbar', $userMenu);
 
-		$m2        = $userMenu->getMenu('system-account-cp', '修改密码', 2);
-		$m2->icon  = 'fa fa-lock';
+		$m2        = $userMenu->getMenu('system-account-cp', '我的账户', 2);
+		$m2->icon  = 'fa fa-user';
 		$m2->group = 'user';
-		$m2->url   = App::hash('~core/user/change-password');
+		$m2->url   = App::hash('~core/user/account');
 
 		$m2                            = $userMenu->getMenu('logout', __('Logout'), 999999);
 		$m2->iconStyle                 = 'color:red';
@@ -82,14 +85,6 @@ class IndexController extends BackendController {
 	}
 
 	public function home() {
-
 		return view();
-	}
-
-	public function users() {
-		$table = new UserTable();
-		$data  = $table->find()->page(1)->asc('id')->toArray();
-
-		return ['items' => $data];
 	}
 }

@@ -2,7 +2,7 @@
 <html lang="{$website.language}" class="app">
 <head>
     <meta charset="UTF-8">
-    <title>{'Dashboard'|t} - {$website.name} - {'wulacms'|t:$version}</title>
+    <title>{'Dashboard'|t} | {$website.name} - {'wulacms'|t:$version}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     {combinate type='css' ver='1.0'}
         <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor:'min'}"/>
@@ -16,12 +16,18 @@
             <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
                 <i class="fa fa-bars"></i>
             </a>
-            <a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="{'logo2.svg'|assets}" class="m-r-sm">WulaCMS</a>
+            <a href="#" class="navbar-brand" data-toggle="fullscreen">
+                <img src="{'logo2.svg'|assets}" class="m-r-sm"/>
+                W<b class="text-danger">u</b>l<b class="text-success">a</b>C<b class="text-info">M</b>S<sup>&copy;</sup><sub>{$version}</sub>
+            </a>
             <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
                 <i class="fa fa-cog"></i>
             </a>
         </div>
         <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
+            <li class="hidden-xs">
+                <a href="/" target="_blank" title="{'Preview'|t}"><i class="fa fa-eye"></i></a>
+            </li>
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle dker" data-toggle="dropdown"><i class="fa fa-fw fa-search"></i></a>
                 <section class="dropdown-menu aside-xl animated fadeInUp">
@@ -29,10 +35,10 @@
                         <form role="search">
                             <div class="form-group wrapper m-b-none">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="{'Search'|t}">
+                                    <input class="form-control" placeholder="{'Search'|t}">
                                     <span class="input-group-btn">
-                      <button type="submit" class="btn btn-info btn-icon"><i class="fa fa-search"></i></button>
-                    </span>
+                                        <button class="btn btn-info btn-icon"><i class="fa fa-search"></i></button>
+                                    </span>
                                 </div>
                             </div>
                         </form>
@@ -68,7 +74,7 @@
     </header>
     <section>
         <section class="hbox stretch">
-            <aside class="bg-light lter b-r aside-md hidden-print hidden-xs" id="nav">
+            <aside class="bg-dark lter b-r aside-md hidden-print hidden-xs" id="nav">
                 <section class="vbox">
                     <header class="header bg-primary lter text-center clearfix">
                         <div class="btn-group">
@@ -154,15 +160,15 @@
                             </nav>
                         </div>
                     </section>
-                    <footer class="footer lt hidden-xs b-t b-light">
+                    <footer class="footer lt hidden-xs b-t b-dark">
                         <a href="#nav" id="toggle-navi" data-toggle="class:nav-xs"
-                           class="pull-right btn btn-sm btn-default btn-icon">
+                           class="pull-right btn btn-sm btn-dark btn-icon">
                             <i class="fa fa-angle-left text"></i>
                             <i class="fa fa-angle-right text-active"></i>
                         </a>
                         <div class="btn-group hidden-nav-xs">
-                            <a class="btn btn-icon btn-sm btn-default" href="/"><i class="fa fa-home"></i></a>
-                            <a class="btn btn-icon btn-sm btn-default"><i class="fa fa-facebook"></i></a>
+                            <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="/"><i class="fa fa-home"></i></a>
+                            <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="http://www.wulacms.com"><i class="fa fa-globe"></i></a>
                         </div>
                     </footer>
                 </section>
@@ -189,7 +195,8 @@
                             </section>
                         </section>
                     </aside>
-                    <aside id="wulaui-workbench" class="wulaui"></aside>
+                    <aside id="wulaui-workbench" class="wulaui">
+                    </aside>
                 </section>
                 <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen, open"
                    data-target="#nav,html"></a>
@@ -219,6 +226,7 @@
 		$.wulaUI.init({
 			appConfig: {$appConfig},
 			hash     : true,
+            home     : "#{'~home'|app}",
 			mode     : '{$appmode}',
 			requirejs: {
 				baseUrl: "{''|res}",
