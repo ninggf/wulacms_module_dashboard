@@ -48,7 +48,7 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="thumb-sm avatar pull-left">
-                        <img src="{'avatar.jpg'|assets}"/>
+                        <img src="{$passport->avatar|media}" id="my-avatar"/>
                     </span>
                     {$passport->nickname} <b class="caret"> </b>
                 </a>
@@ -168,7 +168,8 @@
                         </a>
                         <div class="btn-group hidden-nav-xs">
                             <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="/"><i class="fa fa-home"></i></a>
-                            <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="http://www.wulacms.com"><i class="fa fa-globe"></i></a>
+                            <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="http://www.wulacms.com"><i
+                                        class="fa fa-globe"></i></a>
                         </div>
                     </footer>
                 </section>
@@ -177,7 +178,7 @@
                 <section class="hbox stretch">
                     <aside class="aside aside-md bg-white b-r hide" id="third-navi">
                         <section class="vbox">
-                            <header class="header bg-light dk">
+                            <header class="header bg-light dk b-b clearfix">
                                 <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs"
                                         data-toggle="class:show" data-target="#third-navi-item"><i
                                             class="fa fa-reorder"></i></button>
@@ -195,8 +196,7 @@
                             </section>
                         </section>
                     </aside>
-                    <aside id="wulaui-workbench" class="wulaui">
-                    </aside>
+                    <aside id="wulaui-workbench" class="wulaui bg-white-only"></aside>
                 </section>
                 <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen, open"
                    data-target="#nav,html"></a>
@@ -213,6 +213,7 @@
     <script src="{'wula/ui/js/dialog/dialog.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/datepicker/datepicker.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/select2/select2.min.js'|vendor}"></script>
+    <script src="{'wula/ui/js/plupload.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/require.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/app.js'|vendor:'min'}" type="text/javascript"></script>
 {'wula/ui/lang'|vendor|i18n}
@@ -226,18 +227,22 @@
 		$.wulaUI.init({
 			appConfig: {$appConfig},
 			hash     : true,
-            home     : "#{'~home'|app}",
+			home     : "#{'~home'|app}",
 			mode     : '{$appmode}',
 			requirejs: {
 				baseUrl: "{''|res}",
 				paths  : {
 					ztree       : '{"wula/ui/js/ztree/ztree.min"|vendor}',
 					ztree_exhide: '{"wula/ui/js/ztree/exhide.min"|vendor}',
+					ztree_check : '{"wula/ui/js/ztree/excheck.min"|vendor}',
+					highlight   : '{"wula/ui/js/highlight/highlight.min"|vendor}',
 					validator   : '{"wula/ui/js/validate/validate.min"|vendor}'
 				},
 				shim   : {
 					ztree       : [],
-					ztree_exhide: ['ztree']
+					ztree_exhide: ['ztree'],
+					ztree_check : ['ztree'],
+					highlight   : []
 				}
 			}
 		}, true);

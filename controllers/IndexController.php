@@ -5,6 +5,7 @@ namespace dashboard\controllers;
 use dashboard\classes\BackendController;
 use dashboard\classes\DashboardUI;
 use wulaphp\app\App;
+use function dashboard\get_system_settings;
 
 /**
  * 默认控制器.
@@ -23,11 +24,16 @@ class IndexController extends BackendController {
 				$setting       = $system->getMenu('setting', '设置', 999999);
 				$setting->icon = 'fa fa-cogs';
 				$setting->url  = App::hash('~setting');
-				// 通用设置
-				if ($this->passport->cando('com:system/setting')) {
-					$base       = $setting->getMenu('base', '通用设置');
-					$base->url  = $setting->url;
-					$base->icon = 'fa fa-cogs';
+				//通知其它模块提供配置
+				$settings = get_system_settings();
+				if ($settings) {
+					/**@var \dashboard\classes\Setting $cfg */
+					foreach ($settings as $sid => $cfg) {
+						if ($this->passport->cando($sid . ':system/setting')) {
+							$base      = $setting->getMenu($sid, $cfg->getName());
+							$base->url = $setting->url . '/' . $sid;
+						}
+					}
 				}
 			}
 		}
@@ -77,7 +83,14 @@ class IndexController extends BackendController {
 		$data   = ['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE, 'version' => $module->getCurrentVersion()];
 		$groups = App::$prefix;
 		unset($groups['check']);
-		$data['appConfig'] = json_encode(['ids' => App::id2dir(null), 'groups' => $groups, 'base' => WWWROOT_DIR]);
+
+		$data['appConfig'] = json_encode([
+			'ids'    => App::id2dir(null),
+			'groups' => $groups,
+			'base'   => WWWROOT_DIR,
+			'medias' => apply_filter('get_media_domains', null),
+			'assets' => WWWROOT_DIR . ASSETS_DIR . '/'
+		]);
 
 		$data['website']['name'] = App::cfg('sitename', 'Hello WulaCms');
 

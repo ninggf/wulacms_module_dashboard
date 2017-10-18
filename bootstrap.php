@@ -2,6 +2,7 @@
 
 namespace dashboard {
 
+	use dashboard\classes\DashboardSetting;
 	use wula\cms\CmfModule;
 	use wulaphp\app\App;
 	use wulaphp\db\View;
@@ -77,13 +78,17 @@ namespace dashboard {
 		}
 
 		public function getVersionList() {
-			$v['1.0.0'] = '';
+			$v['1.0.0'] = '初始化控制台模块';
 
 			return $v;
 		}
 	}
 
 	App::register(new DashboardModule());
+
+	function get_system_settings() {
+		return apply_filter('dashboard/settings', ['default' => new DashboardSetting()]);
+	}
 }
 
 namespace {
