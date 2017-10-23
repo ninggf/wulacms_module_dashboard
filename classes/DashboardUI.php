@@ -12,6 +12,11 @@ namespace dashboard\classes;
 
 use wulaphp\util\ArrayCompare;
 
+/**
+ * 控制台界面类，用于管理导航菜单.
+ *
+ * @package dashboard\classes
+ */
 class DashboardUI {
 	private $cpos  = 500;
 	private $menus = [];
@@ -19,11 +24,11 @@ class DashboardUI {
 	/**
 	 * 获取导航菜单.
 	 *
-	 * @param string   $id
+	 * @param string   $id   菜单ID
 	 * @param string   $name 菜单名称
-	 * @param int|null $pos
+	 * @param int|null $pos  位置
 	 *
-	 * @return Menu
+	 * @return Menu Menu实例的引用
 	 */
 	public function &getMenu($id, $name = '', $pos = null) {
 		$ids = explode('/', trim($id, '/'));
@@ -57,7 +62,7 @@ class DashboardUI {
 	 *
 	 * @param bool $group 是否启用分组(在下拉菜单时有用)
 	 *
-	 * @return array
+	 * @return array 菜单数据
 	 */
 	public function menuData($group = false) {
 		$menus = ['menus' => []];

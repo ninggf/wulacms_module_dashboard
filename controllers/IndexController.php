@@ -92,7 +92,8 @@ class IndexController extends BackendController {
 			'assets' => WWWROOT_DIR . ASSETS_DIR . '/'
 		]);
 
-		$data['website']['name'] = App::cfg('sitename', 'Hello WulaCms');
+		$data['website']['name'] = App::cfg('name', 'Hello WulaCms');
+		$data['isDeveloper']     = $this->passport->is('开发人员');
 
 		return view($data);
 	}
@@ -100,4 +101,5 @@ class IndexController extends BackendController {
 	public function home() {
 		return view();
 	}
+
 }

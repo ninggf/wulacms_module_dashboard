@@ -12,6 +12,11 @@ namespace dashboard\classes;
 
 use wulaphp\util\ArrayCompare;
 
+/**
+ * 菜单类.
+ *
+ * @package dashboard\classes
+ */
 class Menu {
 	public  $id;
 	public  $name;
@@ -47,13 +52,13 @@ class Menu {
 	}
 
 	/**
-	 * 获取菜单项。
+	 * 获取子菜单。
 	 *
-	 * @param string   $id
-	 * @param string   $name
-	 * @param int|null $pos
+	 * @param string   $id   菜单ID
+	 * @param string   $name 菜单名称
+	 * @param int|null $pos  菜单位置
 	 *
-	 * @return Menu 菜单实例
+	 * @return Menu 菜单实例的引用
 	 */
 	public function &getMenu($id, $name = '', $pos = null) {
 		if (!isset ($this->child [ $id ])) {
@@ -69,9 +74,23 @@ class Menu {
 	}
 
 	/**
+	 * 生成菜单数据.
+	 *
 	 * @param bool $group 是否启用分组(在下拉菜单时有用)
 	 *
-	 * @return array
+	 * @return array 菜单数据
+	 *
+	 * ```{.json}
+	 * {
+	 *     "id":"menu id",
+	 *     "name":"系统",
+	 *     "h5datas":"data-name=\"abc\" data-id=...",
+	 *     "child":[{
+	 *          "id":"menu id"
+	 *          ...
+	 *     },...]
+	 * }
+	 * ```
 	 */
 	public function data($group = false) {
 		$data  = get_object_vars($this);

@@ -16,14 +16,15 @@ use wulaphp\app\App;
 use wulaphp\cache\RtCache;
 
 /**
- * Class Setting
+ * 配置基类.通过继承此类，可以方便地为应用提供配置功能.
+ *
  * @package dashboard\classes
  */
 abstract class Setting {
 	/**
-	 * 保存配置.
+	 * 保存配置.默认情况下配置保存到数据库的`settings`表中。如果需要自定义配置保存位置请重写此方法。
 	 *
-	 * @param array  $data    数据
+	 * @param array  $data    `key/value`数据.
 	 * @param string $setting 配置
 	 * @param string $group   配置组
 	 *
@@ -49,9 +50,23 @@ abstract class Setting {
 	}
 
 	/**
-	 * 同步配置
+	 * 将配置项同步到集群的所有结点(需要安装__接口(API)__模块).
 	 *
-	 * @param string $setting
+	 * 此功能需要配置`cluster_nodes`:
+	 *
+	 * ```json
+	 * [
+	 *  {
+	 *     "url":"node host",
+	 *     "app_key":"app Key",
+	 *     "app_secret":"app secret",
+	 *     "ver":"api ver"
+	 *  },
+	 *  ....
+	 * ]
+	 * ```
+	 *
+	 * @param string $setting 当前配置
 	 */
 	public final function sync($setting) {
 		$nodes = App::cfg('cluster_nodes');
@@ -59,8 +74,8 @@ abstract class Setting {
 			$curl = new RestFulClient('', '', '');
 			$c    = [];
 			foreach ($nodes as $node) {
-				$client = new RestFulClient($node['url'], $node['appId'], $node['appSecret'], $node['ver']);
-				$c[]    = $client->get('dashboard.clearSettingCache', ['group' => $setting], 10);
+				$client = new RestFulClient($node['url'], $node['app_key'], $node['app_secret'], $node['ver']);
+				$c[]    = $client->get('dashboard.rtcache.clear', ['key' => 'cfg.' . $setting], 10);
 			}
 			$curl->execute($c);
 		}
@@ -72,7 +87,7 @@ abstract class Setting {
 	 * @param string $group 配置组
 	 * @param array  $data  数据
 	 *
-	 * @return null|string
+	 * @return null|string 自定义模板路径，不自定义模板时返回`null`。
 	 */
 	public function customTpl($group = '', &$data = []) {
 		return null;
@@ -80,7 +95,11 @@ abstract class Setting {
 
 	/**
 	 * 配置组.
-	 * @return null|array 配置组
+	 * @return null|array 配置组，只有一个分组时返回`null`；如果有多个分组时请返回分组id与名称:
+	 *
+	 * ```php
+	 *  ['group1'=>'分组1','group2'=>'分组2']
+	 * ```
 	 */
 	public function getGroups() {
 		return null;
@@ -89,22 +108,24 @@ abstract class Setting {
 	/**
 	 * 配置表单.
 	 *
-	 * @param string $group 字配置
+	 * @param string $group 配置组
 	 *
-	 * @return \wulaphp\form\FormTable
+	 * @return \wulaphp\form\FormTable 实例.
 	 */
 	public abstract function getForm($group = '');
 
 	/**
-	 * 配置项名称.
+	 * 配置名称.
+	 *
 	 * @return string
 	 */
 	public abstract function getName();
 
 	/**
-	 * 填充.
+	 * 填充配置表单，默认从数据库的`settings`表中读取配置。如果自定义了配置保存位置请重写此方法。
 	 *
-	 * @param \wulaphp\form\FormTable $form
+	 * @param \wulaphp\form\FormTable $form    通过<a href="javascript:;" onclick="doc_gotodoc(this,'')">getForm</a>()
+	 *                                         获取的配置表单实例.
 	 * @param string                  $setting 配置
 	 * @param string                  $group   配置组
 	 */

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     {combinate type='css' ver='1.0'}
         <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor:'min'}"/>
-    {'dashboard\headercss'|fire}
+        {'dashboard\headercss'|fire}
     {/combinate}
 </head>
 <body>
@@ -171,12 +171,16 @@
                             <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="http://www.wulacms.com"><i
                                         class="fa fa-globe"></i></a>
                         </div>
+                        {if $isDeveloper}
+                            <a class="btn btn-icon btn-sm btn-dark" href="#{'~dashboard/doc'|app}" title="帮助文档"><i
+                                        class="fa fa-book"></i> </a>
+                        {/if}
                     </footer>
                 </section>
             </aside>
             <section id="wulaui-workspace">
                 <section class="hbox stretch">
-                    <aside class="aside aside-md bg-white b-r hide" id="third-navi">
+                    <aside class="aside aside-sm bg-white-only b-r hide" id="third-navi">
                         <section class="vbox">
                             <header class="header bg-light dk b-b clearfix">
                                 <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs"
@@ -216,8 +220,8 @@
     <script src="{'wula/ui/js/plupload.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/require.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/app.js'|vendor:'min'}" type="text/javascript"></script>
-{'wula/ui/lang'|vendor|i18n}
-{'dashboard\footerjs'|fire}
+    {'wula/ui/lang'|vendor|i18n}
+    {'dashboard\footerjs'|fire}
 {/combinate}
 <script type="text/javascript">
 	$(function () {
