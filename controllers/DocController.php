@@ -67,7 +67,7 @@ class DocController extends BackendController {
 				foreach ($pp as $p) {
 					$pps[ $p->getName() ] = [
 						$p->isOptional(),
-						$p->isOptional() ? $p->getDefaultValue() : '',
+						$p->isOptional() && $p->isDefaultValueAvailable() ? $p->getDefaultValue() : '',
 						$p->isPassedByReference()
 					];
 				}

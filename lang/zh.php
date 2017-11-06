@@ -14,5 +14,6 @@ return [
 	'Be a happy wula!'            => '做一只快乐的小乌拉！',
 	'Are your sure?'              => '你确定吗?',
 	'Shortcuts'                   => '快捷方式',
+	'Install'                     => '安装',
 	'Welcome back, '              => '欢迎回来，%s'
 ];

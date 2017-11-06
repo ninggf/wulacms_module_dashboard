@@ -26,7 +26,10 @@ class LoginController extends BackendController {
 		}
 		$module = App::getModule('dashboard');
 
-		return view(['version' => $module->getCurrentVersion(), 'website' => ['name' => App::cfg('sitename', 'Hello WulaCms')]]);
+		return view([
+			'version' => $module->getCurrentVersion(),
+			'website' => ['name' => App::cfg('name', 'Hello WulaCms')]
+		]);
 	}
 
 	/**

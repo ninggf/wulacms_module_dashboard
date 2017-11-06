@@ -11,8 +11,6 @@
 namespace dashboard\classes;
 
 use core\model\SettingsTable;
-use rest\classes\RestFulClient;
-use wulaphp\app\App;
 use wulaphp\cache\RtCache;
 
 /**
@@ -41,43 +39,10 @@ abstract class Setting {
 			if (is_array($cfgs)) {
 				RtCache::add('cfg.' . $setting, $cfgs);
 			}
-			$this->sync($setting);
 
 			return true;
 		} catch (\PDOException $e) {
 			return false;
-		}
-	}
-
-	/**
-	 * 将配置项同步到集群的所有结点(需要安装__接口(API)__模块).
-	 *
-	 * 此功能需要配置`cluster_nodes`:
-	 *
-	 * ```json
-	 * [
-	 *  {
-	 *     "url":"node host",
-	 *     "app_key":"app Key",
-	 *     "app_secret":"app secret",
-	 *     "ver":"api ver"
-	 *  },
-	 *  ....
-	 * ]
-	 * ```
-	 *
-	 * @param string $setting 当前配置
-	 */
-	public final function sync($setting) {
-		$nodes = App::cfg('cluster_nodes');
-		if ($nodes) {
-			$curl = new RestFulClient('', '', '');
-			$c    = [];
-			foreach ($nodes as $node) {
-				$client = new RestFulClient($node['url'], $node['app_key'], $node['app_secret'], $node['ver']);
-				$c[]    = $client->get('dashboard.rtcache.clear', ['key' => 'cfg.' . $setting], 10);
-			}
-			$curl->execute($c);
 		}
 	}
 
@@ -120,6 +85,17 @@ abstract class Setting {
 	 * @return string
 	 */
 	public abstract function getName();
+
+	/**
+	 * 配置脚本(requirejs).
+	 *
+	 * @param string $group
+	 *
+	 * @return null|string
+	 */
+	public function script($group = '') {
+		return null;
+	}
 
 	/**
 	 * 填充配置表单，默认从数据库的`settings`表中读取配置。如果自定义了配置保存位置请重写此方法。

@@ -3,6 +3,7 @@
 namespace dashboard {
 
 	use dashboard\classes\DashboardSetting;
+	use dashboard\classes\MailSetting;
 	use wula\cms\CmfModule;
 	use wulaphp\app\App;
 	use wulaphp\db\View;
@@ -87,7 +88,10 @@ namespace dashboard {
 	App::register(new DashboardModule());
 
 	function get_system_settings() {
-		return apply_filter('dashboard/settings', ['default' => new DashboardSetting()]);
+		return apply_filter('dashboard/settings', [
+			'default' => new DashboardSetting(),
+			'mail'    => new MailSetting()
+		]);
 	}
 }
 

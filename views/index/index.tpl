@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     {combinate type='css' ver='1.0'}
         <link rel="stylesheet" href="{'wula/ui/css/ui.css'|vendor:'min'}"/>
-        {'dashboard\headercss'|fire}
+    {'dashboard\headercss'|fire}
     {/combinate}
 </head>
 <body>
@@ -48,9 +48,8 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="thumb-sm avatar pull-left">
-                        <img src="{$passport->avatar|media}" id="my-avatar"/>
-                    </span>
-                    {$passport->nickname} <b class="caret"> </b>
+                        <img src="{$passport->avatar|media}" id="my-avatar" class="img-circle"/>
+                    </span><b class="caret"> </b>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight">
                     <span class="arrow top"></span>
@@ -76,25 +75,22 @@
         <section class="hbox stretch">
             <aside class="bg-dark lter b-r aside-md hidden-print hidden-xs" id="nav">
                 <section class="vbox">
-                    <header class="header bg-primary lter text-center clearfix">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-dark btn-icon"><i class="fa fa-plus"></i>
-                            </button>
-                            <div class="btn-group hidden-nav-xs">
-                                <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
-                                        data-toggle="dropdown" aria-expanded="false">
-                                    {'Shortcuts'|t}
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu text-left">
-                                    <span class="arrow top"></span>
-                                </ul>
+                    <header class="header bg-primary lter clearfix">
+                        <div class="clearfix">
+                            <a href="#{'~home'|app}" class="pull-left thumb thumb-sm m-t-xs" style="margin-left:-10px">
+                                <img src="{$passport->avatar|media}" class="img-circle">
+                            </a>
+                            <div class="hidden-nav-xs" style="padding-left: 40px">
+                                <div class="h5 m-t-xs m-b-xs">你好，{$passport->nickname}</div>
+                                <small class="text-muted">
+                                    <i class="fa fa-clock-o"></i> <b id="dashtimer">{'Y-m-d H:i'|date}</b>
+                                </small>
                             </div>
                         </div>
                     </header>
                     <section class="w-f scrollable">
                         <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0"
-                             data-size="5px" data-color="#333333">
+                             data-size="5px" data-color="#333">
                             <nav class="nav-primary hidden-xs">
                                 <ul class="nav">
                                     {foreach $menu.menus as $navi}
@@ -172,8 +168,8 @@
                                         class="fa fa-globe"></i></a>
                         </div>
                         {if $isDeveloper}
-                            <a class="btn btn-icon btn-sm btn-dark" href="#{'~dashboard/doc'|app}" title="帮助文档"><i
-                                        class="fa fa-book"></i> </a>
+                            <a class="btn btn-icon btn-sm btn-dark hidden-nav-xs" href="#{'~dashboard/doc'|app}"
+                               title="帮助文档"><i class="fa fa-book"></i> </a>
                         {/if}
                     </footer>
                 </section>
@@ -220,11 +216,18 @@
     <script src="{'wula/ui/js/plupload.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/require.min.js'|vendor}"></script>
     <script src="{'wula/ui/js/app.js'|vendor:'min'}" type="text/javascript"></script>
-    {'wula/ui/lang'|vendor|i18n}
-    {'dashboard\footerjs'|fire}
+{'wula/ui/lang'|vendor|i18n}
+{'dashboard\footerjs'|fire}
 {/combinate}
 <script type="text/javascript">
 	$(function () {
+		var weeks = ['日', '一', '二', '三', '四', '五', '六'];
+		setInterval(function () {
+			var d          = new Date();
+			var datestring = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ' 周' + weeks[d.getDay()];
+			$('#dashtimer').html(datestring);
+			delete d, datestring;
+		}, 10000);
 		$(document).on('wula.need.login', function () {
 			location.href = "{'~login'|app}" + (location.hash ? location.hash : '');
 		});

@@ -20,8 +20,9 @@
     </div>
 {/if}
 <div class="wrapper" style="max-width: 700px">
-    <form name="SettingForm" action="{'~setting/save'|app}/{$setting}/{$group}" data-validate="{$rules|escape}"
-          data-ajax method="post" role="form" class="form-horizontal">
+    <form name="SettingForm" action="{'~setting/save'|app}/{$setting|escape}/{$group|escape}"
+          data-validate="{$rules|escape}" data-ajax method="post" role="form"
+          class="form-horizontal {if $script}hidden{/if}">
         {$form|render}
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9 col-xs-12">
@@ -30,4 +31,14 @@
             </div>
         </div>
     </form>
+    {if $script}
+        <script type="text/javascript">
+			requirejs(['{$script|res}'], function (setting) {
+				if (setting && setting.init) {
+					setting.init();
+				}
+				$('form[name=SettingForm]').removeClass('hidden');
+			});
+        </script>
+    {/if}
 </div>

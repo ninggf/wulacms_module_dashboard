@@ -87,6 +87,7 @@ class SettingController extends BackendController {
 			]);
 			//填充表单
 			$cfg->load($form, $setting, $group);
+			$data['script'] = $cfg->script($group);
 
 			return view($data);
 		}
