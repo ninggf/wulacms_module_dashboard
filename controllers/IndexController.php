@@ -35,6 +35,7 @@ class IndexController extends BackendController {
 						}
 					}
 				}
+				$setting->url .= '/default';
 			}
 		}
 
@@ -49,36 +50,7 @@ class IndexController extends BackendController {
 		$lf           = $uileft->menuData();
 		$data['left'] = $lf['menus'];
 
-		$rightMenu = new DashboardUI();
-		fire('dashboard\initRightTopbar', $rightMenu);
-		$rf            = $rightMenu->menuData();
-		$data['right'] = $rf['menus'];
-		// 顶部用户菜单
-		$userMenu = new DashboardUI();
-		fire('dashboard\initUserTopbar', $userMenu);
-
-		$m2        = $userMenu->getMenu('system-account-cp', '我的账户', 2);
-		$m2->icon  = 'fa fa-user';
-		$m2->group = 'user';
-		$m2->url   = App::hash('~core/user/account');
-
-		$m2                            = $userMenu->getMenu('logout', __('Logout'), 999999);
-		$m2->iconStyle                 = 'color:red';
-		$m2->icon                      = 'fa fa-sign-out';
-		$m2->url                       = App::url('~logout?ajax');
-		$m2->data['confirm']           = __('Are your sure?');
-		$m2->data['confirm-title']     = $m2->name . __('Account');
-		$m2->data['confirm-theme']     = 'supervan';
-		$m2->data['confirm-autoclose'] = 'ok|10000';
-		$m2->data['loading']           = 1;
-		$m2->data['block']             = 1;
-		$m2->data['ajax']              = 'get';
-
-		$rt = $userMenu->menuData(true);
-
-		$data['user'] = $rt['menus'];
-
-		$module = App::getModule('dashboard');
+		$module = App::getModuleById('dashboard');
 
 		$data   = ['menu' => $data, 'ui' => $ui, 'appmode' => APP_MODE, 'version' => $module->getCurrentVersion()];
 		$groups = App::$prefix;

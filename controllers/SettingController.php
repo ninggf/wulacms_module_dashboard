@@ -25,7 +25,7 @@ use function dashboard\get_system_settings;
  * 通用配置控制器.
  *
  * @package dashboard\controllers
- * @role    管理员
+ * @roles   管理员
  * @acl     m:system/setting
  */
 class SettingController extends BackendController {

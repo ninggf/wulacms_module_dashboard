@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{$website.language}" class="app">
+<html class="app">
 <head>
     <meta charset="UTF-8">
     <title>{'Dashboard'|t} | {$website.name} - {'wulacms'|t:$version}</title>
@@ -20,65 +20,33 @@
                 <img src="{'logo2.svg'|assets}" class="m-r-sm"/>
                 W<b class="text-danger">u</b>l<b class="text-success">a</b>C<b class="text-info">M</b>S<sup>&copy;</sup><sub>{$version}</sub>
             </a>
-            <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
-                <i class="fa fa-cog"></i>
-            </a>
         </div>
-        <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">
-            <li class="hidden-xs">
-                <a href="/" target="_blank" title="{'Preview'|t}"><i class="fa fa-eye"></i></a>
-            </li>
-            <li class="dropdown hidden-xs">
-                <a href="#" class="dropdown-toggle dker" data-toggle="dropdown"><i class="fa fa-fw fa-search"></i></a>
-                <section class="dropdown-menu aside-xl animated fadeInUp">
-                    <section class="panel bg-white">
-                        <form role="search">
-                            <div class="form-group wrapper m-b-none">
-                                <div class="input-group">
-                                    <input class="form-control" placeholder="{'Search'|t}">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-info btn-icon"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
-                    </section>
-                </section>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="thumb-sm avatar pull-left">
-                        <img src="{$passport->avatar|media}" id="my-avatar" class="img-circle"/>
-                    </span><b class="caret"> </b>
-                </a>
-                <ul class="dropdown-menu animated fadeInRight">
-                    <span class="arrow top"></span>
-                    {foreach $menu.user as $m}
-                        {if $m.name == 'divider'}
-                            <li class="divider"></li>
-                        {else}
-                            <li id="umi-li-{$m.id}" class="{$m.textCls}" style="{$m.textStyle}">
-                                <a href="{$m.url|default:'#'}" id="navi-{$m.id}" {$m.h5datas}>
-                                    {if $m.icon}
-                                        <i class="{$m.icon}" {if $m.iconStyle}style="{$m.iconStyle}"{/if}></i>
-                                    {/if}
-                                    {$m.name}
-                                </a>
-                            </li>
-                        {/if}
-                    {/foreach}
+
+        <div class="wula-nav-out" role="tab" data-widget data-target="#wulaui-workbench" id="dashboard-main-tabs">
+            <div class="list">
+                <b class="nav-btn-left">&pr;</b>
+                <b class="nav-btn-right">&sc;</b>
+                <ul class="wula-nav">
+                    <li class="active">
+                        <a href="#{'~home'|app}" title="{'Dashboard'|t}">
+                            <span class="little"><span><i class="fa fa-home"></i>{'Dashboard'|t}</span></span>
+                        </a>
+                        <span class="tab-close none"><i>x</i></span>
+                    </li>
                 </ul>
-            </li>
-        </ul>
+            </div>
+        </div>
+
     </header>
-    <section>
+    <section id="wulacms-wrap">
         <section class="hbox stretch">
-            <aside class="bg-dark lter b-r aside-md hidden-print hidden-xs" id="nav">
+            <aside class="bg-light lter b-r aside-md hidden-print hidden-xs" id="nav">
                 <section class="vbox">
-                    <header class="header bg-primary lter clearfix">
+                    <header class="header bg-light dk b-b clearfix">
                         <div class="clearfix">
-                            <a href="#{'~home'|app}" class="pull-left thumb thumb-sm m-t-xs" style="margin-left:-10px">
-                                <img src="{$passport->avatar|media}" class="img-circle">
+                            <a href="#{'~core/user/account'|app}" class="pull-left thumb thumb-sm m-t-xs"
+                               title="{'我的账户'|t}" style="margin-left:-6px">
+                                <img id="my-avatar" src="{$passport->avatar|media}" class="img-circle">
                             </a>
                             <div class="hidden-nav-xs" style="padding-left: 40px">
                                 <div class="h5 m-t-xs m-b-xs">你好，{$passport->nickname}</div>
@@ -156,27 +124,31 @@
                             </nav>
                         </div>
                     </section>
-                    <footer class="footer lt hidden-xs b-t b-dark">
+                    <footer class="footer lt hidden-xs b-t bg-light">
                         <a href="#nav" id="toggle-navi" data-toggle="class:nav-xs"
-                           class="pull-right btn btn-sm btn-dark btn-icon">
+                           class="pull-right btn btn-sm btn-default btn-icon">
                             <i class="fa fa-angle-left text"></i>
                             <i class="fa fa-angle-right text-active"></i>
                         </a>
                         <div class="btn-group hidden-nav-xs">
-                            <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="/"><i class="fa fa-home"></i></a>
-                            <a class="btn btn-icon btn-sm btn-dark" target="_blank" href="http://www.wulacms.com"><i
+                            <a class="btn btn-icon btn-sm btn-default" target="_blank" href="/"><i class="fa fa-home"></i></a>
+                            <a class="btn btn-icon btn-sm btn-default" target="_blank" href="http://www.wulacms.com"><i
                                         class="fa fa-globe"></i></a>
                         </div>
                         {if $isDeveloper}
-                            <a class="btn btn-icon btn-sm btn-dark hidden-nav-xs" href="#{'~dashboard/doc'|app}"
-                               title="帮助文档"><i class="fa fa-book"></i> </a>
+                            <a class="btn btn-icon btn-sm btn-default hidden-nav-xs" href="#{'~dashboard/doc'|app}"
+                               title="帮助文档"><i class="fa fa-book text-info"></i> </a>
                         {/if}
+                        <a class="btn btn-icon btn-sm btn-default hidden-nav-xs" href="{'~logout?ajax'|app}" data-ajax
+                           data-confirm="你确定吗?" data-confirm-title="注销账户" data-confirm-theme="supervan"
+                           data-confirm-autoclose="ok|10000" data-loading="1" data-block="1"><i
+                                    class="fa fa-sign-out text-danger"></i></a>
                     </footer>
                 </section>
             </aside>
             <section id="wulaui-workspace">
                 <section class="hbox stretch">
-                    <aside class="aside aside-sm bg-white-only b-r hide" id="third-navi">
+                    <aside class="aside aside-md bg-white-only b-r hide" id="third-navi">
                         <section class="vbox">
                             <header class="header bg-light dk b-b clearfix">
                                 <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs"
@@ -196,7 +168,7 @@
                             </section>
                         </section>
                     </aside>
-                    <aside id="wulaui-workbench" class="wulaui bg-white-only"></aside>
+                    <section id="wulaui-workbench"></section>
                 </section>
                 <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen, open"
                    data-target="#nav,html"></a>
@@ -221,10 +193,9 @@
 {/combinate}
 <script type="text/javascript">
 	$(function () {
-		var weeks = ['日', '一', '二', '三', '四', '五', '六'];
 		setInterval(function () {
 			var d          = new Date();
-			var datestring = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ' 周' + weeks[d.getDay()];
+			var datestring = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
 			$('#dashtimer').html(datestring);
 			delete d, datestring;
 		}, 10000);
@@ -234,7 +205,6 @@
 		$.wulaUI.init({
 			appConfig: {$appConfig},
 			hash     : true,
-			home     : "#{'~home'|app}",
 			mode     : '{$appmode}',
 			requirejs: {
 				baseUrl: "{''|res}",
@@ -243,13 +213,15 @@
 					ztree_exhide: '{"wula/ui/js/ztree/exhide.min"|vendor}',
 					ztree_check : '{"wula/ui/js/ztree/excheck.min"|vendor}',
 					highlight   : '{"wula/ui/js/highlight/highlight.min"|vendor}',
-					validator   : '{"wula/ui/js/validate/validate.min"|vendor}'
+					validator   : '{"wula/ui/js/validate/validate.min"|vendor}',
+					jsgrid      : '{"wula/ui/js/jsgrid/jsgrid.min"|vendor}'
 				},
 				shim   : {
 					ztree       : [],
 					ztree_exhide: ['ztree'],
 					ztree_check : ['ztree'],
-					highlight   : []
+					highlight   : [],
+					jsgrid: []
 				}
 			}
 		}, true);
